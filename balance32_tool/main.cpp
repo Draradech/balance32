@@ -69,7 +69,7 @@ int main(int argc, char** argv)
     glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 
     glutCreateWindow("yabr measurement tool");
-    //glutFullScreen();
+    glutFullScreen();
 
     glutIgnoreKeyRepeat(true);
 

@@ -37,10 +37,9 @@ void IRAM_ATTR clock1_isr()
 void Clock1::period(uint32_t usec)
 {
   clock1_base = usec;
-  timer = timerBegin(0, 80, true);
-  timerAttachInterrupt(timer, &clock1_isr, true);
-  timerAlarmWrite(timer, usec, true);
-  timerAlarmEnable(timer);
+  timer = timerBegin(1000000);
+  timerAttachInterrupt(timer, &clock1_isr);
+  timerAlarm(timer, usec, true, 0);
 }
 
 void Clock1::rate(uint16_t hz)

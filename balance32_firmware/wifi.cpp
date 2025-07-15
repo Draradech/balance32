@@ -7,6 +7,7 @@ const char* passwd = "balance32pwd";
 
 void setupWifi()
 {
+  WiFi.persistent(false);
   WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, passwd);
 }

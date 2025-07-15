@@ -92,8 +92,7 @@ void configStepper()
   spiSend(0x00, 0x00000004); // GCONF: en_pwm_mode=1, I_scale_analog=0
   spiSend(0x10, 0x00060F07); // IHOLD_IRUN: IHOLD=7, IRUN=15 (1/2 current), IHOLDDELAY=6
   spiSend(0x11, 0x0000000A); // TPOWERDOWN: 10 (delay before power down in stand still)
-  spiSend(0x13, 0x00000060); // TPWM_THRS: 96
-  spiSend(0x6C, 0x000300C3); // CHOPCONF: vsense=1, TOFF=3, HSTRT=4, HEND=1, TBL=2, CHM=0 (spreadCycle)   
+  spiSend(0x6C, 0x010300C3); // CHOPCONF: MRES=1, vsense=1, TOFF=3, HSTRT=4, HEND=1, TBL=2, CHM=0 (spreadCycle)   
   spiSend(0x70, 0x00050480); // PWM_CONF: AUTO=1, 2/683 Fclk, Switch amplitude limit=128, Grad=4
   spiTerminate();
 }
@@ -111,7 +110,7 @@ void loopStepper()
   }
 
   digitalWrite(12, actuator.disabled);
-  if (actuator.disabled)
+  if (actuator.disabled || actuator.currentSpeed == 0)
   {
     ledc_timer_pause(LEDC_HIGH_SPEED_MODE, LEDC_TIMER_0);
     ledc_timer_rst(LEDC_HIGH_SPEED_MODE, LEDC_TIMER_0);
@@ -120,7 +119,7 @@ void loopStepper()
   {
     ledc_timer_resume(LEDC_HIGH_SPEED_MODE, LEDC_TIMER_0);
     int32_t prec = 1 << PREC_BITS;
-    int32_t freq = actuator.currentSpeed * 1000;
+    int32_t freq = actuator.currentSpeed;
     freq = ABS(freq);
     freq = MAX(1, freq);
     digitalWrite(14, actuator.currentSpeed > 0);
