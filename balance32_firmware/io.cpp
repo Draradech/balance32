@@ -32,7 +32,7 @@ void loopInputOutput()
   subLoop %= 5;
 
   #define ENTRY(ID, var, rightshift, resolution, unit, name, minvalue, maxvalue)\
-  case ID: dataout.data[c] = var >> rightshift; break;
+  case ID: dataout.data[c] = ((var) >> rightshift); break;
 
   if(subLoop == 0)
   {
